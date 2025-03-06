@@ -11,7 +11,7 @@ class CreateEmployee extends CreateRecord
     protected static string $resource = EmployeeResource::class;
 
     protected function getRedirectUrl(): string
-{
+    {
     return $this->previousUrl ?? $this->getResource()::getUrl('index');
-}
+    }
 }

@@ -13,10 +13,7 @@ return new class extends Migration
     {
         Schema::create('sub_categories', function (Blueprint $table) {
             $table->id();
-            $table->string('sub_category_id');
             $table->string('name');
-            $table->string('file_upload');
-            $table->foreignId('user_id')->constrained('users');
             $table->text('remarks');
             $table->foreignId('category_id')->constrained('categories');
             $table->timestamps();

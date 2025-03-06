@@ -2,16 +2,20 @@
 
 namespace App\Filament\Resources;
 
+use Filament\Forms;
+use Filament\Tables;
+use Filament\Forms\Form;
+use Filament\Tables\Table;
+use App\Models\SubCategory;
+use Filament\Resources\Resource;
+use Filament\Forms\Components\Select;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
+use Illuminate\Database\Eloquent\Builder;
+use Filament\Tables\Columns\TextInputColumn;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\SubCategoryResource\Pages;
 use App\Filament\Resources\SubCategoryResource\RelationManagers;
-use App\Models\SubCategory;
-use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
-use Filament\Tables;
-use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class SubCategoryResource extends Resource
 {
@@ -23,7 +27,9 @@ class SubCategoryResource extends Resource
     {
         return $form
             ->schema([
-                //
+                TextInput::make('name')->required(),
+                TextInput::make('remarks')->required(),
+                Select::make('category_id')->relationship('category', 'category_name')->required(),
             ]);
     }
 
@@ -31,7 +37,9 @@ class SubCategoryResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('name'),
+                TextInputColumn::make('remarks'),
+                TextColumn::make('category.category_name'),
             ])
             ->filters([
                 //
