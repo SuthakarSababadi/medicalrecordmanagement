@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use Filament\Forms;
 use Filament\Tables;
+use App\Models\Record;
 use App\Models\Employee;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
@@ -16,6 +17,8 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\EmployeeResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\EmployeeResource\RelationManagers;
+use App\Filament\Resources\EmployeeResource\RelationManagers\RecordsRelationManager;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 class EmployeeResource extends Resource
 {
@@ -89,7 +92,7 @@ class EmployeeResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\RecordsRelationManager::class
         ];
     }
 
