@@ -17,4 +17,8 @@ class Employee extends Model
         'worker_no',
         'status',
     ];
+
+    public function records(){
+        return $this->hasMany(Record::class);
+    }
 }
