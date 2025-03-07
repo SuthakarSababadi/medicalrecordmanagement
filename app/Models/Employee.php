@@ -19,6 +19,6 @@ class Employee extends Model
     ];
 
     public function records(){
-        return $this->hasMany(Record::class);
+        return $this->belongsToMany(Record::class);
     }
 }

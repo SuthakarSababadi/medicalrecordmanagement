@@ -2,23 +2,17 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Forms;
-use Filament\Tables;
-use App\Models\Record;
-use App\Models\Employee;
-use Filament\Forms\Form;
-use Filament\Tables\Table;
-use Filament\Resources\Resource;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Section;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\TextInput;
-use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\EmployeeResource\Pages;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\EmployeeResource\RelationManagers;
-use App\Filament\Resources\EmployeeResource\RelationManagers\RecordsRelationManager;
-use Illuminate\Database\Eloquent\Relations\Relation;
+use App\Models\Employee;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Form;
+use Filament\Resources\Resource;
+use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
 
 class EmployeeResource extends Resource
 {
@@ -29,27 +23,26 @@ class EmployeeResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-        
+
             ->schema([
-              //  Section::make('Employee Details')
-             //   ->schema([
-                    TextInput::make('name')->required(),
-                    TextInput::make('email')->email()->required(),
-                    TextInput::make('ic_no')->required()->unique(),
-                    TextInput::make('phone_no')->required(),
-                    TextInput::make('address')->required(),    
-               // ])
-                //->columns(2),
-                                
+                //  Section::make('Employee Details')
+                //   ->schema([
+                TextInput::make('name')->required(),
+                TextInput::make('email')->email()->required(),
+                TextInput::make('ic_no')->required()->unique(ignoreRecord: true),
+                TextInput::make('phone_no')->required(),
+                TextInput::make('address')->required(),
+                // ])
+                // ->columns(2),
+
                 Select::make('citizenship')->options([
                     'Mal' => 'Malaysian',
                     'Ind' => 'Indonesian',
                     'other' => 'Other',
                 ])->required(),
 
-
                 TextInput::make('position')->required(),
-                TextInput::make('worker_no')->required()->unique(),
+                TextInput::make('worker_no')->required()->unique(ignoreRecord: true),
                 Select::make('status')->options([
                     'Active' => 'Active',
                     'Inactive' => 'Inactive',
@@ -57,7 +50,6 @@ class EmployeeResource extends Resource
 
             ]);
 
-          
     }
 
     public static function table(Table $table): Table
@@ -65,12 +57,12 @@ class EmployeeResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name'),
-              //  TextColumn::make('email'),
+                //  TextColumn::make('email'),
                 TextColumn::make('ic_no'),
                 TextColumn::make('phone_no'),
-             //   TextColumn::make('address'),
-              //  TextColumn::make('citizenship'),
-              //  TextColumn::make('position'),
+                //   TextColumn::make('address'),
+                //  TextColumn::make('citizenship'),
+                //  TextColumn::make('position'),
                 TextColumn::make('worker_no'),
                 TextColumn::make('status'),
 
@@ -84,7 +76,7 @@ class EmployeeResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                  //  Tables\Actions\DeleteBulkAction::make(),
+                    //  Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -92,7 +84,7 @@ class EmployeeResource extends Resource
     public static function getRelations(): array
     {
         return [
-            RelationManagers\RecordsRelationManager::class
+            RelationManagers\RecordsRelationManager::class,
         ];
     }
 
@@ -105,5 +97,4 @@ class EmployeeResource extends Resource
             'edit' => Pages\EditEmployee::route('/{record}/edit'),
         ];
     }
-    
 }
