@@ -18,7 +18,13 @@ class Employee extends Model
         'status',
     ];
 
-    public function records(){
+    public function records()
+    {
         return $this->belongsToMany(Record::class);
+    }
+
+    public function appointments()
+    {
+        return $this->belongsToMany(Appointment::class);
     }
 }

@@ -21,6 +21,12 @@ class RecordResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    public static function canViewAny(): bool
+    {
+        // Only show the resource if the user has the 'view_any' permission for Record
+        return auth()->user()->can('view_any_record');
+    }
+
     public static function form(Form $form): Form
     {
         return $form

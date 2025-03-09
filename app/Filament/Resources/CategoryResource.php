@@ -2,25 +2,23 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Forms;
-use Filament\Tables;
-use App\Models\Category;
-use Filament\Forms\Form;
-use Filament\Tables\Table;
-use Filament\Resources\Resource;
-use Filament\Forms\Components\Select;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\TextInput;
-use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\CategoryResource\Pages;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\CategoryResource\RelationManagers;
+use App\Models\Category;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Form;
+use Filament\Resources\Resource;
+use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
 
 class CategoryResource extends Resource
 {
     protected static ?string $model = Category::class;
 
     protected static ?string $navigationIcon = 'heroicon-c-plus-circle';
+
+    protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
     {
@@ -30,9 +28,9 @@ class CategoryResource extends Resource
                 TextInput::make('category_description')->required(),
                 Select::make('status')->options([
                     'Active' => 'Active',
-                    'Inactive' => 'Inactive',    
-                ])
-                
+                    'Inactive' => 'Inactive',
+                ]),
+
             ]);
     }
 
@@ -53,7 +51,7 @@ class CategoryResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-              //      Tables\Actions\DeleteBulkAction::make(),
+                    //      Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }
