@@ -47,6 +47,7 @@ class RecordsRelationManager extends RelationManager
                     ->default(auth()->id()),
 
                 FileUpload::make('attachment')->required()
+
                     ->preserveFilenames()
                     ->multiple(),
 
@@ -66,31 +67,27 @@ class RecordsRelationManager extends RelationManager
                     ->label('Sub Category'),
                 TextColumn::make('description'),
 
-           
-                     
                 TextColumn::make('attachment')
-                ->label('Attachments')
-                ->formatStateUsing(function ($record) {
-                    // Check if the attachment field has any files
-                    if (!empty($record->attachment)) {
-                        // Decode the attachment field from JSON if necessary
-                        $attachments = is_string($record->attachment) ? json_decode($record->attachment, true) : $record->attachment;
-            
-                        // Generate clickable links for each attachment
-                        return collect($attachments)->map(function ($file) {
-                           // $url = "/path/to/your/files/" . $file; // Adjust the path to your file storage
-                           $url = asset('storage/' . $file);
-                           return "<a href='{$url}' target='_blank'>{$file}</a>";
-                        })->implode(', '); // Separate links with commas or line breaks
-                    }
-            
-                    return 'No attachment';
-                })
-                ->html()
-                ->disabledClick(), // Render the HTML in the column
-            
+                    ->label('Attachments')
+                    ->formatStateUsing(function ($record) {
+                        // Check if the attachment field has any files
+                        if (! empty($record->attachment)) {
+                            // Decode the attachment field from JSON if necessary
+                            $attachments = is_string($record->attachment) ? json_decode($record->attachment, true) : $record->attachment;
 
+                            // Generate clickable links for each attachment
+                            return collect($attachments)->map(function ($file) {
+                                // $url = "/path/to/your/files/" . $file; // Adjust the path to your file storage
+                                $url = asset('storage/'.$file);
 
+                                return "<a href='{$url}' target='_blank'>{$file}</a>";
+                            })->implode(', '); // Separate links with commas or line breaks
+                        }
+
+                        return 'No attachment';
+                    })
+                    ->html()
+                    ->disabledClick(), // Render the HTML in the column
 
             ])
             ->filters([
@@ -102,11 +99,11 @@ class RecordsRelationManager extends RelationManager
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-             //   Tables\Actions\DeleteAction::make(),
+                //   Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-              //      Tables\Actions\DeleteBulkAction::make(),
+                    //      Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }
