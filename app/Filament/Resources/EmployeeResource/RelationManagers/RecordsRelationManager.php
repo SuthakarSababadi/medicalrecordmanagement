@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\EmployeeResource\RelationManagers;
 
 use App\Models\SubCategory;
+use Carbon\Carbon;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
@@ -22,7 +23,8 @@ class RecordsRelationManager extends RelationManager
     {
         return $form
             ->schema([
-                TextInput::make('title')->required(),
+                TextInput::make('title')->required()
+                    ->label('File Location'),
 
                 Select::make('category_id')
 
@@ -38,7 +40,17 @@ class RecordsRelationManager extends RelationManager
 
                         return SubCategory::where('category_id', $categoryId)->pluck('name', 'id')->toArray();
                     })
+                    ->required(),
 
+                Select::make('year')
+                    ->label('Year')
+                    ->options(function () {
+                        // Generate years from 1900 to the current year + 10
+                        $currentYear = Carbon::now()->year;
+                        $years = range(1998, $currentYear);
+
+                        return array_combine($years, $years); // Key-value pairs with year as both key and value
+                    })
                     ->required(),
 
                 TextInput::make('description')->required(),
@@ -60,11 +72,17 @@ class RecordsRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('title')
             ->columns([
-                TextColumn::make('title'),
+                TextColumn::make('title')->label('File Location')->searchable(),
                 TextColumn::make('category.category_name')
-                    ->label('Category'),
+                    ->label('Category')
+                    ->sortable()
+                    ->searchable(),
                 TextColumn::make('subcategory.name')
-                    ->label('Sub Category'),
+                    ->label('Sub Category')
+                    ->searchable(),
+
+                TextColumn::make('year')->label('Year')
+                    ->searchable(),
                 TextColumn::make('description'),
 
                 TextColumn::make('attachment')

@@ -27,12 +27,15 @@ class AppointmentResource extends Resource
         return $form
             ->schema([
                 TextInput::make('name')->required()
-                    ->label('Appointment Name'),
+                    ->label('Appointment Ref.'),
+
+                Select::make('category_id')
+                    ->relationship(name: 'category', titleAttribute: 'category_name')
+                    ->searchable(),
 
                 Select::make('employee_id')
                     ->relationship(name: 'employee', titleAttribute: 'name')
                     ->searchable()
-
                     ->getSearchResultsUsing(fn (string $query) => Employee::query()
                         ->where('name', 'like', "%{$query}%")
                         ->limit(50)
@@ -57,9 +60,12 @@ class AppointmentResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('name'),
                 TextColumn::make('employee.name')
                     ->sortable(),
+                TextColumn::make('employee.ic_no')->label('Ic No.'),
+                TextColumn::make('category.category_name')->label('Type'),
+                TextColumn::make('name')->label('Appointment Ref.')->sortable(),
+
                 TextColumn::make('date')
                     ->dateTime('d/m/Y')
                     ->sortable(),

@@ -13,6 +13,7 @@ class Record extends Model
         'user_id',
         'attachment',
         'description',
+        'year',
 
     ];
 

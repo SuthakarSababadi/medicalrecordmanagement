@@ -21,4 +21,9 @@ class Category extends Model
     {
         return $this->hasMany(Record::class);
     }
+
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class);
+    }
 }

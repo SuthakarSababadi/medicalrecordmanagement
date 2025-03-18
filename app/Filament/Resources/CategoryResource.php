@@ -38,8 +38,8 @@ class CategoryResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('category_name'),
-                TextColumn::make('category_description'),
+                TextColumn::make('category_name')->sortable()->searchable(),
+                TextColumn::make('category_description')->sortable()->searchable(),
                 TextColumn::make('status'),
             ])
             ->filters([

@@ -17,6 +17,7 @@ class Appointment extends Model
         'employee_id',
         'date',
         'remarks',
+        'category_id',
     ];
 
     public function setDateAttribute($value)
@@ -24,5 +25,10 @@ class Appointment extends Model
         // Convert the date from 'd/m/Y' to 'Y-m-d' before saving
         $this->attributes['date'] = Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');
 
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
     }
 }
